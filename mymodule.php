@@ -4,7 +4,7 @@ if (!defined('_PS_VERSION_')) {
 
 }
 
-class MyModule extends Module 
+class MyModule extends Module
 {
     public function __construct()
     {
@@ -19,7 +19,8 @@ class MyModule extends Module
         ];
         $this->bootstrap = true;
 
-        parent::__construct();;
+        parent::__construct();
+        ;
 
         $this->displayName = $this->trans('Lee\'s module', [], 'Modules.Mymodule.Admin');
         $this->description = $this->trans('Having fun with Presta', [], 'Modules.Mymodule.Admin');
@@ -32,8 +33,8 @@ class MyModule extends Module
     }
 
     public function install()
-        {
-            if (Shop::isFeatureActive()) {
+    {
+        if (Shop::isFeatureActive()) {
             Shop::setContext(Shop::CONTEXT_ALL);
         }
 
@@ -41,13 +42,13 @@ class MyModule extends Module
             $this->registerHook('displayHome') &&                 // module on HOME
             $this->registerHook('actionFrontControllerSetMedia') &&
             Configuration::updateValue('MYMODULE_NAME', 'my module');
-            
+
     }
 
     public function uninstall()
     {
         return (
-            parent::uninstall() 
+            parent::uninstall()
             && Configuration::deleteByName('MYMODULE_NAME')
         );
     }
@@ -59,7 +60,7 @@ class MyModule extends Module
             'my_module_link' => $this->context->link->getModuleLink('mymodule', 'display')
         ]);
 
-        return $this->display(__FILE__, 'mymodule.tpl');  
+        return $this->display(__FILE__, 'mymodule.tpl');
     }
 
     public function hookActionFrontControllerSetMedia()
@@ -117,26 +118,124 @@ class MyModule extends Module
         return $output . $this->displayForm();
     }
 
-    public function displayForm()
+    public function getCarList($searchTerm)
     {
-        // Init Fields form array
+        $sql = new DbQuery();
+        $sql->select('*');
+        $sql->from('cars'); // Assuming your table is named 'cars'
+        $sql->where('make LIKE \'%' . pSQL($searchTerm) . '%\' OR model LIKE \'%' . pSQL($searchTerm) . '%\'');
+
+        return Db::getInstance()->executeS($sql);
+    }
+
+    public function displayForm()       // config FORMS
+    {
         $form = [
             'form' => [
                 'legend' => [
-                    'title' => $this->l('Settings'),
+                    'title' => $this->l('OrderMeCom'),
+                ],
+                'input' => [
+                    [
+                        'type' => 'select',
+                        'label' => $this->l('Do you wish to make an order?'),
+                        'name' => 'beer_faq',
+                        'desc' => $this->l('Please choose an option'),
+                        'options' => [
+                            'query' => [
+                                [
+                                    'id_option' => '-',
+                                    'name_option' => '-',
+                                ],
+                                [
+                                    'id_option' => '1',
+                                    'name_option' => 'Yes',
+                                ],
+                                [
+                                    'id_option' => '2',
+                                    'name_option' => 'No',
+                                ],
+                            ],
+                            'id' => 'id_option',
+                            'name' => 'name_option',
+                        ],
+                    ],
+                    [
+                        'type' => 'select',
+                        'label' => 'What time of day should the order arrive by?',
+                        'name' => 'beer_amount',
+                        'desc' => $this->l('Delivery times may vary and are only an estimation'),
+                        'options' => [
+                            'query' => [
+                                [
+                                    'id_option' => '-',
+                                    'name_option' => '-',
+                                ],
+
+                                [
+                                    'id_option' => '1',
+                                    'name_option' => 'Morning: 6-12 AM'
+                                ],
+                                [
+                                    'id_option' => '2',
+                                    'name_option' => 'Afternoon: 12-6 PM'
+
+                                ],
+                                [
+                                    'id_option' => '3',
+                                    'name_option' => 'Evening: 6-11pm'
+                                ],
+                            ],
+                            'id' => 'id_option',
+                            'name' => 'name_option',
+                        ],
+                    ],
+                    [
+                        'type' => 'switch',
+                        'label' => $this->l('Do you agree to GDPR?'),
+                        'desc' => 'Required for processing',
+                        'name' => 'beerstop',
+                        'required' => true,
+                        'values' => [
+                            [
+                                'id' => 'yes',
+                                'value' => 1,
+                                'label' => $this->l('Yes'),
+                                'checked' => true,
+                            ],
+                            [
+                                'id' => 'no',
+                                'value' => 0,
+                                'label' => $this->l('No'),
+                                'checked' => true,
+                            ],
+                        ],
+                    ],
+                ],
+
+                'submit' => [
+                    'title' => $this->l('Pour a pint!'),
+                    'class' => 'btn btn-primary pull-right',
+                ],
+            ],
+        ];
+
+        $form1 = [
+            'form' => [
+                'legend' => [
+                    'title' => $this->l('Work Hard'),
                 ],
                 'input' => [
                     [
                         'type' => 'text',
-                        'label' => $this->l('Configuration value'),
+                        'label' => $this->l('How hard do you work?'),
                         'name' => 'MYMODULE_CONFIG',
                         'size' => 20,
-                        'required' => true,
                     ],
                 ],
                 'submit' => [
-                    'title' => $this->l('Save'),
-                    'class' => 'btn btn-default pull-right',
+                    'title' => $this->l('Withdraw funds!'),
+                    'class' => 'btn btn-primary pull-right',
                 ],
             ],
         ];
