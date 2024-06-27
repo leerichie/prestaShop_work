@@ -4,7 +4,7 @@
 # of your site by web crawlers and spiders run by sites like Yahoo!
 # and Google. By telling these "robots" where not to go on your site,
 # you save bandwidth and server resources.
-# For more information about the robots.txt standard, see:jjj
+# For more information about the robots.txt standard, see:
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 # Allow Directives
