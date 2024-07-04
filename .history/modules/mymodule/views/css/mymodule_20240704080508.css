@@ -1,0 +1,53 @@
+.title_one {
+  margin-top: 30px;
+  font-size: 200%;
+}
+
+div#lee_home_tpl p {
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-family: "Playwrite GB S";
+
+  font-size: 150%;
+  color: firebrick;
+}
+
+@keyframes seesaw {
+  0% {
+    rotate: 0deg;
+  }
+  25% {
+    rotate: 20deg;
+  }
+  50% {
+    rotate: 0deg;
+  }
+  75% {
+    rotate: -20deg;
+  }
+  100% {
+    rotate: 0deg;
+  }
+}
+
+.link_me a {
+  animation-name: seesaw;
+  animation-duration: 0.5s;
+  text-align: center;
+  font-size: large;
+  padding-right: 30px;
+}
+
+.link_me li {
+  display: inline-block;
+  margin: 10px 0 10px;
+  height: 30px;
+  width: 100px;
+  vertical-align: middle;
+}
+
+.link_me li a:hover {
+  font-size: x-large;
+  color: green;
+  text-decoration: none;
+}

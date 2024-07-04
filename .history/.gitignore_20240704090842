@@ -1,0 +1,2 @@
+var/database/auto.cnf
+var/database/ib_buffer_pool

@@ -1,0 +1,43 @@
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - ./var/database:/var/lib/mysql:delegated
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: ps
+      MYSQL_USER: ps
+      MYSQL_PASSWORD: ps
+  prestashop:
+    depends_on:
+      - db
+    image: prestashop/prestashop:latest
+    ports:
+      - "8789:80"
+    restart: always
+    environment:
+      PS_INSTALL_AUTO: 0
+      PS_ERASE_DB: 0
+      DB_SERVER: db
+      DB_USER: ps
+      DB_PASSWD: ps
+      DB_NAME: ps
+      PS_DEV_MODE: 0
+      PS_DOMAIN: localhost:8789
+      PS_FOLDER_ADMIN: admin
+      PS_FOLDER_INSTALL: install
+    volumes:
+      - .:/var/www/html:delegated
+  phpmyadmin1:
+    container_name: docker-pmab12
+    image: phpmyadmin/phpmyadmin:latest
+    restart: on-failure
+    ports:
+      - "8182:80"
+    environment:
+      - PMA_HOST=db
+
+volumes:
+  db_data:
+  prestashop_data:
