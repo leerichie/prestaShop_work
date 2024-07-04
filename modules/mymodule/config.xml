@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<module>
+    <name>mymodule</name>
+    <displayName><![CDATA[Ash Carhartt Mod]]></displayName>
+    <version><![CDATA[1.0.0]]></version>
+    <description><![CDATA[Online Carharrt shop.]]></description>
+    <author><![CDATA[Lee R]]></author>
+    <tab><![CDATA[front_office_features]]></tab>
+	<confirmUninstall><![CDATA[Sure you want to uninstall?]]></confirmUninstall>
+    <is_configurable>1</is_configurable>
+    <need_instance>0</need_instance>
+</module>
